@@ -10,7 +10,7 @@ const app = express();
 mongoose.Promise = global.Promise;
 mongoose.createConnection(config.uri, (err) => {
     if (err) {
-        consoloe.log('Unable to connect to database: ', this.err);
+        console.log('Unable to connect to database: ', this.err);
     } else {
         console.log('Connected to database: ' , config.db);
     }
