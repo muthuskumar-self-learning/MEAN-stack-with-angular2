@@ -1,0 +1,12 @@
+# compiled output
+/client/dist
+
+# dependencies
+/client/node_modules
+
+# e2e
+/client/e2e/*.js
+/client/e2e/*.map
+
+# server dependencies
+/node_modules

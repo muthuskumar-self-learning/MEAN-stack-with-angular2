@@ -1,0 +1,27 @@
+{
+  "name": "mean-angular2",
+  "version": "0.0.1",
+  "description": "MEAN stack with angular 2 app built from tutorial ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muthuskumar-selfTraining/MEAN-stack-with-angular2.git"
+  },
+  "keywords": [
+    "MEAN",
+    "angular2"
+  ],
+  "author": "muthuskumar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muthuskumar-selfTraining/MEAN-stack-with-angular2/issues"
+  },
+  "homepage": "https://github.com/muthuskumar-selfTraining/MEAN-stack-with-angular2#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongoose": "^4.13.2"
+  }
+}
