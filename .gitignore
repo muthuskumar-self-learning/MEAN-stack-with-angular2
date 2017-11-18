@@ -4,6 +4,9 @@
 # dependencies
 /client/node_modules
 
+# client gitignore
+/client/.gitignore
+
 # e2e
 /client/e2e/*.js
 /client/e2e/*.map
