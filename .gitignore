@@ -13,3 +13,7 @@
 
 # server dependencies
 /node_modules
+
+#log files
+/client/angularoutput.log
+/serveroutput.log
