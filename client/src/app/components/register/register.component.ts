@@ -11,7 +11,10 @@ import { AuthService } from '../../services/auth.service';
 export class RegisterComponent implements OnInit {
 
     registerForm: FormGroup;
-
+    message;
+    messageClass;
+    processing = false;
+    
     constructor(
 	private registerFormBuilder: FormBuilder,
 	private authService: AuthService
@@ -70,8 +73,25 @@ export class RegisterComponent implements OnInit {
 	    }
 	}
     }
+
+    disableForm() {
+	this.registerForm.controls['email'].disable();
+	this.registerForm.controls['username'].disable();
+	this.registerForm.controls['password'].disable();
+	this.registerForm.controls['confirmPassword'].disable();
+    }
+
+    enableForm() {
+	this.registerForm.controls['email'].enable();
+	this.registerForm.controls['username'].enable();
+	this.registerForm.controls['password'].enable();
+	this.registerForm.controls['confirmPassword'].enable();
+    }
     
     onRegistrationSubmit() {
+	this.processing = true;
+	this.disableForm();
+	
 	const user = {
 	    email: this.registerForm.get('email').value,
 	    username: this.registerForm.get('username').value,
@@ -80,7 +100,15 @@ export class RegisterComponent implements OnInit {
 
 	this.authService.registerUser(user)
 	    .subscribe(data => {
-		console.log("Registration response: ", data);
+		if (!data.success) {
+		    this.messageClass = 'alert alert-danger';
+		    this.message = data.message;
+		    this.processing = false;
+		    this.enableForm();		    
+		} else {
+		    this.messageClass = 'alert alert-success';
+		    this.message = data.message;
+		}
 	    });
     }
     

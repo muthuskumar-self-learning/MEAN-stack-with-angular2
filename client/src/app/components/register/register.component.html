@@ -1,4 +1,11 @@
 <h1>Registration Page</h1>
+
+<div class="row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+
 <form [formGroup]="registerForm" (submit)="onRegistrationSubmit()">
   <div class="form-group">
     <label for="username">Username</label>
