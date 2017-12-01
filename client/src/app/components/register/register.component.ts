@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { AuthService } from '../../services/auth.service';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -11,7 +13,8 @@ export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
 
     constructor(
-	private registerFormBuilder: FormBuilder
+	private registerFormBuilder: FormBuilder,
+	private authService: AuthService
     ) {
 	this.createForm();
     }
@@ -33,7 +36,8 @@ export class RegisterComponent implements OnInit {
 	    password: ['', Validators.compose([
 		Validators.required,
 		Validators.minLength(8),
-		Validators.maxLength(35)
+		Validators.maxLength(35),
+		this.validatePassword
 	    ])],
 	    confirmPassword: ['', Validators.required]
 	}, { validator: this.matchingPasswords('password', 'confirmPassword') });
@@ -48,6 +52,15 @@ export class RegisterComponent implements OnInit {
 	}
     }
 
+    validatePassword(controls) {
+	const passwordRegExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,35}$/);
+	if(passwordRegExp.test(controls.value)){
+	    return null;
+	} else {
+	    return { 'validatePasswordError': true }
+	}
+    }
+
     matchingPasswords(password, confirmPassword) {
 	return (group: FormGroup) => {
 	    if (group.controls[password].value === group.controls[confirmPassword].value) {
@@ -59,7 +72,16 @@ export class RegisterComponent implements OnInit {
     }
     
     onRegistrationSubmit() {
-	console.log(this.registerForm);
+	const user = {
+	    email: this.registerForm.get('email').value,
+	    username: this.registerForm.get('username').value,
+	    password: this.registerForm.get('password').value
+	}
+
+	this.authService.registerUser(user)
+	    .subscribe(data => {
+		console.log("Registration response: ", data);
+	    });
     }
     
     ngOnInit() {

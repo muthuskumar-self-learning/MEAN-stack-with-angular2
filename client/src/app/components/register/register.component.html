@@ -49,6 +49,7 @@
       <ul>
 	<li *ngIf="registerForm.controls.password.errors?.required && registerForm.controls.password.dirty">Password is required.</li>
 	<li *ngIf="registerForm.controls.password.dirty && (registerForm.controls.password.errors?.minlength || registerForm.controls.password.errors?.maxlength)">Password should be at least a minimum of 8 characters and a maximum of 35 characters</li>
+	<li *ngIf="registerForm.controls.password.dirty && registerForm.controls.password.errors?.validatePasswordError">Password must have at least one uppercase, lowercase, special character and a number</li>
       </ul>
     </div>
   </div>
