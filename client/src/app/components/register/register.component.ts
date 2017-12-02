@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -21,7 +22,8 @@ export class RegisterComponent implements OnInit {
     
     constructor(
 	private registerFormBuilder: FormBuilder,
-	private authService: AuthService
+	private authService: AuthService,
+	private router: Router
     ) {
 	this.createForm();
     }
@@ -79,7 +81,7 @@ export class RegisterComponent implements OnInit {
     }
 
     checkEmailAvailability() {
-	if (!this.registerForm.get('email')) {
+	if (this.registerForm.get('email').value) {
 	    this.authService.checkEmailAvailability(this.registerForm.get('email').value)
 		.subscribe(data => {
 		    if (!data.success) {
@@ -94,7 +96,7 @@ export class RegisterComponent implements OnInit {
     }
 
     checkUsernameAvailability() {
-	if (!this.registerForm.get('username')) {
+	if (this.registerForm.get('username').value) {
 	    this.authService.checkUsernameAvailability(this.registerForm.get('username').value)
 		.subscribe(data => {
 		    if (!data.success) {
@@ -142,6 +144,9 @@ export class RegisterComponent implements OnInit {
 		} else {
 		    this.messageClass = 'alert alert-success';
 		    this.message = data.message;
+		    setTimeout(() => {
+			this.router.navigate(['/login']);
+		    }, 2000);
 		}
 	    });
     }
