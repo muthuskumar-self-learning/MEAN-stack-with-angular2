@@ -15,4 +15,14 @@ export class AuthService {
 	    .post(this.domain + '/authentication/register', user);
     }
 
+    checkEmailAvailability(email) {
+	return this.http
+	    .get(this.domain + '/authentication/checkEmail/' + email);
+    }
+
+    checkUsernameAvailability(username) {
+	return this.http
+	    .get(this.domain + '/authentication/checkUsername/' + username);
+    }
+
 }

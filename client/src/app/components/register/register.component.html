@@ -13,14 +13,16 @@
       <input type="text"
 	     name="username"
 	     class="form-control"
-	     [ngClass]="{'is-invalid': (registerForm.controls.username.dirty && registerForm.controls.username.errors), 'is-valid': !registerForm.controls.username.errors}"
+	     [ngClass]="{'is-invalid': (registerForm.controls.username.dirty && (registerForm.controls.username.errors || !usernameAvailable)), 'is-valid': (!registerForm.controls.username.errors && usernameAvilable)}"
 	     autocomplete="off"
 	     placeholder="Username"
-	     formControlName="username" />
+	     formControlName="username"
+	     (blur)="checkUsernameAvailability()" />
       <ul>
 	<li *ngIf="registerForm.controls.username.dirty && registerForm.controls.username.errors?.required">Username is required.</li>
 	<li *ngIf="registerForm.controls.username.dirty && (registerForm.controls.username.errors?.minlength || registerForm.controls.username.errors?.maxlength)">Username should be at least a minimum of 3 characters and a maximum of 15 characters</li>
 	<li *ngIf="registerForm.controls.username.dirty && registerForm.controls.username.errors?.validateUsernameError">Username cannot have any special characters</li>
+	<li *ngIf="!usernameAvailable">{{usernameAvailabilityMessage}}</li>
       </ul>
     </div>
   </div>
@@ -31,14 +33,16 @@
 	 type="email"
 	 name="email"
 	 class="form-control"
-	 [ngClass]="{'is-invalid': (registerForm.controls.email.errors && registerForm.controls.email.dirty), 'is-valid': !registerForm.controls.email.errors}"
+	 [ngClass]="{'is-invalid': (registerForm.controls.email.dirty && (registerForm.controls.email.errors || !emailAvailable)), 'is-valid': (!registerForm.controls.email.errors && emailAvailable)}"
 	 autocomplete="off"
 	 placeholder="Email"
-	 formControlName="email" />
+	 formControlName="email"
+	 (blur)="checkEmailAvailability()" />
       <ul>
 	<li *ngIf="registerForm.controls.email.errors?.required && registerForm.controls.email.dirty">Email is required.</li>
 	<li *ngIf="registerForm.controls.email.dirty && (registerForm.controls.email.errors?.minlength || registerForm.controls.email.errors?.maxlength)">Email should be at least a minimum of 5 characters and a maximum of 30 characters</li>
 	<li *ngIf="registerForm.controls.email.dirty && registerForm.controls.email.errors?.email">Not a valid email id</li>
+	<li *ngIf="!emailAvailable">{{emailAvailabilityMessage}}</li>
       </ul>
     </div>
   </div>

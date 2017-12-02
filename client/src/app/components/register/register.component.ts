@@ -14,6 +14,10 @@ export class RegisterComponent implements OnInit {
     message;
     messageClass;
     processing = false;
+    emailAvailable = true;
+    emailAvailablityMessage;
+    usernameAvailable = true;
+    usernameAvailabilityMessage;
     
     constructor(
 	private registerFormBuilder: FormBuilder,
@@ -74,6 +78,36 @@ export class RegisterComponent implements OnInit {
 	}
     }
 
+    checkEmailAvailability() {
+	if (!this.registerForm.get('email')) {
+	    this.authService.checkEmailAvailability(this.registerForm.get('email').value)
+		.subscribe(data => {
+		    if (!data.success) {
+			this.emailAvailable = false;
+			this.emailAvailabilityMessage = data.message;
+		    } else {
+			this.emailAvailable = true;
+			this.emailAvailabilityMessage = data.message;
+		    }
+		});
+	}
+    }
+
+    checkUsernameAvailability() {
+	if (!this.registerForm.get('username')) {
+	    this.authService.checkUsernameAvailability(this.registerForm.get('username').value)
+		.subscribe(data => {
+		    if (!data.success) {
+			this.usernameAvailable = false;
+			this.usernameAvailabilityMessage = data.message;
+		    } else {
+			this.usernameAvailable = true;
+			this.usernameAvailabilityMessage = data.message;
+		    }
+		});
+	}
+    }
+    
     disableForm() {
 	this.registerForm.controls['email'].disable();
 	this.registerForm.controls['username'].disable();
