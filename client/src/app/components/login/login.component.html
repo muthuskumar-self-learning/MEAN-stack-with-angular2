@@ -1,3 +1,44 @@
-<p>
-  login works!
-</p>
+<h1>Registration Page</h1>
+
+<div class="row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+
+<form [formGroup]="registerForm" (submit)="onRegistrationSubmit()">
+  <div class="form-group">
+    <label for="username">Username</label>
+    <div>
+      <input type="text"
+	     name="username"
+	     class="form-control"
+	     [ngClass]="{'is-invalid': (registerForm.controls.username.dirty && (registerForm.controls.username.errors || !usernameAvailable)), 'is-valid': (!registerForm.controls.username.errors && usernameAvilable)}"
+	     autocomplete="off"
+	     placeholder="Username"
+	     formControlName="username"
+	     (blur)="checkUsernameAvailability()" />
+      <ul>
+	<li *ngIf="registerForm.controls.username.dirty && registerForm.controls.username.errors?.required">Username is required.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <div>
+      <input
+	 type="password"
+	 name="password"
+	 class="form-control"
+	 [ngClass]="{'is-invalid': (registerForm.controls.password.errors && registerForm.controls.password.dirty), 'is-valid': !registerForm.controls.password.errors}"
+	 autocomplete="off"
+	 placeholder="Password"
+	 formControlName="password" />
+      <ul>
+	<li *ngIf="registerForm.controls.password.errors?.required && registerForm.controls.password.dirty">Password is required.</li>
+      </ul>
+    </div>
+  </div>
+
+  <input type="submit" class="btn btn-primary" [disabled]="!registerForm.valid || processing" value="Submit" />
+</form>
