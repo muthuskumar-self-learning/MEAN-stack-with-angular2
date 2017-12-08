@@ -2,7 +2,6 @@ const User = require('../models/user');
 
 module.exports = (router) => {
     router.post('/register', (req, res) => {
-	console.log(req.body);
 	if (!req.body.email) {
 	    res.json({ success: false, message: 'email id is required.' });
 	} else if (!req.body.username) {
@@ -64,6 +63,29 @@ module.exports = (router) => {
 	    });
 	}
     });    
+
+    router.post('/login', (req, res) => {
+	if (!req.body.username) {
+	    res.json({ success: false, message: 'Username was not provided' });
+	} else if (!req.body.password) {
+	    res.json({ success: false, message: 'Password was not provided' });
+	} else {
+	    User.findOne({ username: req.body.username.toLowerCase() }, (err, user) => {
+		if (err) {
+		    res.json({ success: false, message: err });
+		} else if (!user) {
+		    res.json({ success: false, message: 'Username not found'});
+		} else {
+		    const validPassword = user.comparePassword(req.body.password);
+		    if (!validPassword) {
+			res.json({ success: false, message: 'Invalid password' });
+		    } else {
+			res.json({ success: true, message: 'Login successfull'});
+		    }
+		}
+	    })
+	}
+    });
     
     return router;
 }

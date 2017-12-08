@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
     messageClass;
     processing = false;
     emailAvailable = true;
-    emailAvailablityMessage;
+    emailAvailabilityMessage;
     usernameAvailable = true;
     usernameAvailabilityMessage;
     

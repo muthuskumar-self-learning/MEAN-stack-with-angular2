@@ -6,20 +6,19 @@
   </div>
 </div>
 
-<form [formGroup]="registerForm" (submit)="onRegistrationSubmit()">
+<form [formGroup]="loginForm" (submit)="onLoginSubmit()">
   <div class="form-group">
     <label for="username">Username</label>
     <div>
       <input type="text"
 	     name="username"
 	     class="form-control"
-	     [ngClass]="{'is-invalid': (registerForm.controls.username.dirty && (registerForm.controls.username.errors || !usernameAvailable)), 'is-valid': (!registerForm.controls.username.errors && usernameAvilable)}"
+	     [ngClass]="{'is-invalid': (loginForm.controls.username.dirty && loginForm.controls.username.errors), 'is-valid': (loginForm.controls.dirty && !loginForm.controls.username.errors)}"
 	     autocomplete="off"
 	     placeholder="Username"
-	     formControlName="username"
-	     (blur)="checkUsernameAvailability()" />
+	     formControlName="username" />
       <ul>
-	<li *ngIf="registerForm.controls.username.dirty && registerForm.controls.username.errors?.required">Username is required.</li>
+	<li *ngIf="loginForm.controls.username.dirty && loginForm.controls.username.errors?.required">Username is required.</li>
       </ul>
     </div>
   </div>
@@ -30,15 +29,15 @@
 	 type="password"
 	 name="password"
 	 class="form-control"
-	 [ngClass]="{'is-invalid': (registerForm.controls.password.errors && registerForm.controls.password.dirty), 'is-valid': !registerForm.controls.password.errors}"
+	 [ngClass]="{'is-invalid': (loginForm.controls.password.errors && loginForm.controls.password.dirty), 'is-valid': !loginForm.controls.password.errors}"
 	 autocomplete="off"
 	 placeholder="Password"
 	 formControlName="password" />
       <ul>
-	<li *ngIf="registerForm.controls.password.errors?.required && registerForm.controls.password.dirty">Password is required.</li>
+	<li *ngIf="loginForm.controls.password.errors?.required && loginForm.controls.password.dirty">Password is required.</li>
       </ul>
     </div>
   </div>
 
-  <input type="submit" class="btn btn-primary" [disabled]="!registerForm.valid || processing" value="Submit" />
+  <input type="submit" class="btn btn-primary" [disabled]="!loginForm.valid || processing" value="Submit" />
 </form>
