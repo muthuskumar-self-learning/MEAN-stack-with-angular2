@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Observable';
 export class AuthService {
 
     domain = 'http://localhost:8080';
+    authToken;
+    user;
     
     constructor(
 	private http: HttpClient
@@ -24,6 +26,19 @@ export class AuthService {
     checkUsernameAvailability(username): Observable<any> {
 	return this.http
 	    .get(this.domain + '/authentication/checkUsername/' + username);
+    }
+
+    login(user) {
+	return this.http
+	    .post(this.domain + '/authentication/login', user);
+    }
+
+    storeUserData(token, user) {
+	localStorage.setItem('token', token);
+	localStorage.setItem('user', JSON.stringify(user));
+
+	this.authToken = token;
+	this.user = user;
     }
 
 }

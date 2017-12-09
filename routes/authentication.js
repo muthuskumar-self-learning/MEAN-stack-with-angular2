@@ -1,4 +1,7 @@
+const jwt = require('jsonwebtoken');
+
 const User = require('../models/user');
+const dbConfig = require('../config/database');
 
 module.exports = (router) => {
     router.post('/register', (req, res) => {
@@ -80,7 +83,8 @@ module.exports = (router) => {
 		    if (!validPassword) {
 			res.json({ success: false, message: 'Invalid password' });
 		    } else {
-			res.json({ success: true, message: 'Login successfull'});
+			const token = jwt.sign({ userId: user._id }, dbConfig.secret, { expiresIn: '24h' });
+			res.json({ success: true, message: 'Login successfull', token: token, user: { username: user.username } });
 		    }
 		}
 	    })
