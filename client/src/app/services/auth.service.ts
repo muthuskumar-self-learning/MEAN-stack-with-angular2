@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
+import { tokenNotExpired } from 'angular2-jwt';
+
 @Injectable()
 export class AuthService {
 
@@ -49,6 +51,10 @@ export class AuthService {
 	this.authToken = null;
 	this.user = null;
 	localStorage.clear();
+    }
+
+    loggedIn() {
+	return tokenNotExpired();
     }
     
     getProfile(): Observable<any> {
