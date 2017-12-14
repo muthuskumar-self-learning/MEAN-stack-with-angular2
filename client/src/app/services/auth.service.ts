@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -8,10 +8,22 @@ export class AuthService {
     domain = 'http://localhost:8080';
     authToken;
     user;
+    options;
     
     constructor(
 	private http: HttpClient
     ) { }
+
+    createAuthenticationHeaders() {
+	this.loadToken();
+	this.options = new HttpHeaders()
+	    .set('contentType', 'application/json')
+	    .set('authorization', this.authToken);
+    }
+    
+    loadToken() {
+	this.authToken = localStorage.getItem('token');
+    }
 
     registerUser(user): Observable<any> {
 	return this.http
@@ -28,11 +40,24 @@ export class AuthService {
 	    .get(this.domain + '/authentication/checkUsername/' + username);
     }
 
-    login(user) {
+    login(user): Observable<any> {
 	return this.http
 	    .post(this.domain + '/authentication/login', user);
     }
 
+    logout() {
+	this.authToken = null;
+	this.user = null;
+	localStorage.clear();
+    }
+    
+    getProfile(): Observable<any> {
+	this.createAuthenticationHeaders();
+	console.log('Options', this.options);
+	return this.http
+	    .get(this.domain + '/authentication/profile', { headers: this.options });
+    }
+    
     storeUserData(token, user) {
 	localStorage.setItem('token', token);
 	localStorage.setItem('user', JSON.stringify(user));

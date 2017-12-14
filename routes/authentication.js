@@ -90,6 +90,40 @@ module.exports = (router) => {
 	    })
 	}
     });
+
+    router.use((req, res, next) => {
+	const token = req.headers['authorization'];
+
+	if (!token) {
+	    res.json({ success: false, message: 'Token not provided' });
+	} else {
+	    jwt.verify(token, dbConfig.secret, (err, decoded) => {
+		if (err) {
+		    res.json({ success: false, message: 'Invalid Token provided - ' + err});
+		} else {
+		    req.decoded = decoded;
+		    next();
+		}
+	    });
+	}
+	
+    });
+    
+    router.get('/profile', (req, res) => {
+	User.findOne({ _id: req.decoded.userId })
+	    .select('username email')
+	    .exec((err, user) => {
+		if (err) {
+		    res.json({ success: false, message: err });
+		} else {
+		    if (!user) {
+			res.json({ success: false, message: 'Unable to find user.' });
+		    } else {
+			res.json({ success: true, user: user});
+		    }
+		}
+	    });
+    });
     
     return router;
 }

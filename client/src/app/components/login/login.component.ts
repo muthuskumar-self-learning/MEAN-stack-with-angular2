@@ -13,6 +13,8 @@ export class LoginComponent implements OnInit {
 
     loginForm: FormGroup;
     processing = false;
+    message;
+    messageClass;
     
     constructor(
 	private formBuilder: FormBuilder,
