@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<button type="button" name="button" class="btn btn-primary btn-sm" *ngIf="!newPost" (click)="newBlogForm()">New Post</button>
+<button type="button" name="button" class="btn btn-info btn-sm" *ngIf="!newPost" (click)="newBlogForm()">New Post</button>
 <button type="button" name="button" class="btn btn-secondary btn-sm"*ngIf="!newPost" (click)="reloadBlogs()" [disabled]="loadingBlogs">
   <span class="fa fa-refresh"></span>&nbsp;&nbsp;Reload
 </button>
@@ -30,10 +30,48 @@
 	<br />
 	<strong>Dislikes: </strong>22
       </div>
+
       <a href="#">
 	<button type="button" class="btn btn-info btn-sm">Edit</button>
+      </a>
+      <a href="#">
 	<button type="button" class="btn btn-danger btn-sm">Delete</button>	
       </a>
+
+      <div class="dropdown">
+	<button type="button" class="btn btn-success btn-sm">
+	  <span class="fa fa-thumbs-up"></span>&nbsp;Likes: 25
+	</button>
+	<div class="dropdown-content">
+	  <a href="#">User A</a>
+	  <a href="#">User B</a>
+	  <a href="#">User C</a>
+	</div>
+      </div>
+
+      <div class="dropdown">
+	<button type="button" class="btn btn-warning btn-sm">
+	  <span class="fa fa-thumbs-down"></span>&nbsp;Dislikes: 21
+	</button>
+	<div class="dropdown-content">
+	  <a href="#">User A</a>
+	  <a href="#">User B</a>
+	  <a href="#">User C</a>
+	</div>
+      </div>
+      
     </div>
+
+    <ul class="list-group">
+      <li class="list-group-item">
+	<button type="button" class="btn btn-info btn-sm" (click)="draftComment()">Post Comment</button>
+	<br />
+	<!--form>
+	  <textarea name="Comment" rows="10" columns="30" class="form-control"></textarea>
+	  <button type="button" class="btn btn-info btn-sm">Submit Post</button>
+	  <button type="button" class="btn btn-danger btn-sm">Cancel</button>
+	</form-->
+      </li>
+    </ul>
   </div>
 </div>

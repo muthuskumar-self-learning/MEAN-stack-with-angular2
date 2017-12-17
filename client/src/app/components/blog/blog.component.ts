@@ -25,6 +25,10 @@ export class BlogComponent implements OnInit {
 	    this.loadingBlogs = false;
 	}, 4000)
     }
+
+    draftComment() {
+
+    }
     
     ngOnInit() {
     }

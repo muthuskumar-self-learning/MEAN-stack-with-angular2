@@ -8,6 +8,7 @@ const cors = require('cors');
 
 const config = require('./config/database')
 const authentication = require('./routes/authentication')(router);
+const blog = require('./routes/blog')(router);
 
 const port = 8080;
 
@@ -29,6 +30,7 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/client/dist'));
 app.use('/authentication', authentication);
+app.use('/blog', blog);
 
 app.get('*', (req, res) => {
     res.sendFile(__dirname + '/client/dist/index.html');
