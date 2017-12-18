@@ -2,7 +2,7 @@ module.exports = {
     titleLengthValidator: (title) => {
 	if (!title) {
 	    return false;
-	} else if (email.length < 5 || title.length > 50) {
+	} else if (title.length < 5 || title.length > 50) {
 	    return false;
 	}
 

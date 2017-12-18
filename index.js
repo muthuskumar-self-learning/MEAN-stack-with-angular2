@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/client/dist'));
 app.use('/authentication', authentication);
-app.use('/blog', blog);
+app.use('/blogs', blog);
 
 app.get('*', (req, res) => {
     res.sendFile(__dirname + '/client/dist/index.html');

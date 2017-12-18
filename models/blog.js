@@ -8,7 +8,7 @@ mongoose.Promise = global.Promise;
 const titleValidators = [
     {
 	validator: validators.titleLengthValidator,
-	message: 'Title of the blog must be at least 3 character long and not more than 50 characters.'
+	message: 'Title of the blog must be at least 5 character long and not more than 50 characters.'
     }
 ];
 
@@ -29,7 +29,7 @@ const commentValidators = [
 const blogSchema = new Schema({
     title: { type: String, required: true, validate: titleValidators },
     body: { type: String, required: true, validate: bodyValidators },
-    createdBy: { type: String },
+    createdBy: { type: String, required: true },
     createdOn: { type: Date, default: Date.now() },
     likes: { type: Number, default: 0 },
     likedBy: { type: Array },
