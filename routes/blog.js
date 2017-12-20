@@ -39,5 +39,20 @@ module.exports = (router) => {
 	    });
 	}
     });
+
+    router.get("/allBlogs", (req, res) => {
+	Blog.find({})
+	    .sort({ _id: -1 })
+	    .exec((err, blogs) => {
+	    if (err) {
+		res.json({ success: false, message: 'Unable to retreive blogs. ' + err });
+	    } else if (!blogs) {
+		res.json({ success: false, message: 'No blogs found.' });
+	    } else {
+		res.json({ success: true, blogs: blogs });
+	    }
+	});
+    });
+    
     return router;
 }

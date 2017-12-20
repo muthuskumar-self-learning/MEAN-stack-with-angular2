@@ -28,4 +28,9 @@ export class BlogService {
 	return this.http.post(this.domain + '/blogs/newBlog', blog, { headers: this.options });
     }
 
+    getAllBlogs(): Observable<any> {
+	this.createAuthenticationHeaders();
+	return this.http.get(this.domain + '/blogs/allBlogs', { headers: this.options });
+    }
+
 }

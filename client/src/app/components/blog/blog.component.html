@@ -54,35 +54,36 @@
 </form>
 
 <div>
-  <div class="card bg-light mb-3" style="max-width: 90%;">
+  <div class="card bg-light mb-3" style="max-width: 90%;" *ngFor="let blog of blogs">
     <div class="card-header text-white bg-info">
-      Post Title
+      {{ blog.title }}
     </div>
     <div class="card-body">
-      <p>Lorem ipsum dolor sit amet consectuter adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p>{{ blog.body }}</p>
     </div>
     <div class="card-footer">
-      <strong>Posted by: </strong>muthuskumar
+      <strong>Posted by: </strong>{{ blog.createdBy }}
       <br />
-      <strong>Posted on: </strong>16-Dec-2017
-      <div>
-	<strong>Likes: </strong>25
+      <strong>Posted on: </strong>{{ blog.createdOn | date: 'MMM dd, yyyy' }}
+      
+      <div *ngIf="blog.createdBy === username">
+	<strong>Likes: </strong>{{ blog.likes }}
 	<br />
-	<strong>Dislikes: </strong>22
+	<strong>Dislikes: </strong>{{ blog.dislikes }}
       </div>
 
       <br />
             
-      <a href="#">
+      <a [routerLink]="['/edit-blog/', blog._id]" *ngIf="blog.createdBy === username">
 	<button type="button" class="btn btn-info">Edit</button>
       </a>
-      <a href="#">
+      <a [routerLink]="['/delete-blog/', blog._id]" *ngIf="blog.createdBy === username">
 	<button type="button" class="btn btn-danger">Delete</button>	
       </a>
 
       <div class="dropdown">
-	<button type="button" class="btn btn-success">
-	  <span class="fa fa-thumbs-up"></span>&nbsp;Likes: 25
+	<button type="button" class="btn btn-success" *ngIf="blog.createdBy !== username">
+	  <span class="fa fa-thumbs-up"></span>&nbsp;Likes: {{ blog.likes }}
 	</button>
 	<div class="dropdown-content">
 	  <a href="#">User A</a>
@@ -92,8 +93,8 @@
       </div>
 
       <div class="dropdown">
-	<button type="button" class="btn btn-warning">
-	  <span class="fa fa-thumbs-down"></span>&nbsp;Dislikes: 21
+	<button type="button" class="btn btn-warning" *ngIf="blog.createdBy !== username">
+	  <span class="fa fa-thumbs-down"></span>&nbsp;Dislikes: {{ blog.dislikes }}
 	</button>
 	<div class="dropdown-content">
 	  <a href="#">User A</a>
