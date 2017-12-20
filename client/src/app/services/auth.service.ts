@@ -59,7 +59,6 @@ export class AuthService {
     
     getProfile(): Observable<any> {
 	this.createAuthenticationHeaders();
-	console.log('Options', this.options);
 	return this.http
 	    .get(this.domain + '/authentication/profile', { headers: this.options });
     }

@@ -16,6 +16,8 @@ import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/not-auth.guard';
+
+import { BlogService } from './services/blog.service';
 import { BlogComponent } from './components/blog/blog.component';
 
 @NgModule({
@@ -39,7 +41,8 @@ import { BlogComponent } from './components/blog/blog.component';
     providers: [
 	AuthService,
 	AuthGuard,
-	NotAuthGuard
+	NotAuthGuard,
+	BlogService
     ],
     bootstrap: [
 	AppComponent
