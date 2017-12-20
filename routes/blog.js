@@ -7,7 +7,6 @@ const dbConfig = require('../config/database');
 module.exports = (router) => {
 
     router.post('/newBlog', (req, res) => {
-	console.log(req.body);
 	if (!req.body.title) {
 	    res.json({ success: false, message: 'Blog title is missing.' });
 	} else if (!req.body.body) {

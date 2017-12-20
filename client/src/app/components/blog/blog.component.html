@@ -6,20 +6,60 @@
   </div>
 </div>
 
-<button type="button" name="button" class="btn btn-info btn-sm" *ngIf="!newPost" (click)="newBlogForm()">New Post</button>
-<button type="button" name="button" class="btn btn-secondary btn-sm"*ngIf="!newPost" (click)="reloadBlogs()" [disabled]="loadingBlogs">
+<button type="button" name="button" class="btn btn-info" *ngIf="!newPost" (click)="newBlogForm()">New Post</button>
+<button type="button" name="button" class="btn btn-secondary" *ngIf="!newPost" (click)="reloadBlogs()" [disabled]="loadingBlogs">
   <span class="fa fa-refresh"></span>&nbsp;&nbsp;Reload
 </button>
 <br/>
 <br/>
 
-<div *ngIf="!newPost">
+<form [formGroup]="blogForm" name="blogForm" (submit)="onBlogFormSubmit()" *ngIf="newPost" class="card bg-light mb-3" style="max-width: 90%;">
+  <div class="form-group card-header text-white bg-info">
+    <div>
+      <input
+	 type="text"
+	 name="title"
+	 formControlName="title"
+	 class="form-control"
+	 [ngClass]="{'is-valid': blogForm.controls.title.valid, 'is-invalid': (blogForm.controls.title.dirty && blogForm.controls.title.errors)}"
+	 placeholder="Blog Title"
+	 autocomplete="off" /> 
+      <ul class="help-block">
+	<li *ngIf="(blogForm.controls.title.dirty && blogForm.controls.title.errors?.required)">Title is required.</li>
+	<li *ngIf="(blogForm.controls.title.dirty && (blogForm.controls.title.errors?.minlength || blogForm.controls.title.errors?.maxlength))">Title should be at least 5 characters and a maximum of 50 characters long.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-group card-body">
+    <div>
+      <textarea
+	 type="text"
+	 name="body"
+	 formControlName="body"
+	 class="form-control"
+	 [ngClass]="{'is-valid': blogForm.controls.body.valid, 'is-invalid': (blogForm.controls.body.dirty && blogForm.controls.body.errors)}"
+	 placeholder="Blog Body"
+	 autocomplete="off"
+	 style="width: 100%"></textarea> 
+      <ul class="help-block">
+	<li *ngIf="(blogForm.controls.body.dirty && blogForm.controls.body.errors?.required)">Body is required.</li>
+	<li *ngIf="(blogForm.controls.body.dirty && (blogForm.controls.body.errors?.minlength || blogForm.controls.body.errors?.maxlength))">Body should be at least 5 characters and a maximum of 2000 characters long.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button [disabled]="processing" type="button" name="button" class="btn btn-danger" (click)="cancelNewBlog()">Cancel</button>
+    <button [disabled]="processing || !blogForm.valid" type="submit" name="button" class="btn btn-success">Submit Post</button>
+  </div>
+</form>
+
+<div>
   <div class="card bg-light mb-3" style="max-width: 90%;">
     <div class="card-header text-white bg-info">
       Post Title
     </div>
     <div class="card-body">
-      <p card-text>Lorem ipsum dolor sit amet consectuter adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p>Lorem ipsum dolor sit amet consectuter adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
     </div>
     <div class="card-footer">
       <strong>Posted by: </strong>muthuskumar
@@ -32,14 +72,14 @@
       </div>
 
       <a href="#">
-	<button type="button" class="btn btn-info btn-sm">Edit</button>
+	<button type="button" class="btn btn-info">Edit</button>
       </a>
       <a href="#">
-	<button type="button" class="btn btn-danger btn-sm">Delete</button>	
+	<button type="button" class="btn btn-danger">Delete</button>	
       </a>
 
       <div class="dropdown">
-	<button type="button" class="btn btn-success btn-sm">
+	<button type="button" class="btn btn-success">
 	  <span class="fa fa-thumbs-up"></span>&nbsp;Likes: 25
 	</button>
 	<div class="dropdown-content">
@@ -50,7 +90,7 @@
       </div>
 
       <div class="dropdown">
-	<button type="button" class="btn btn-warning btn-sm">
+	<button type="button" class="btn btn-warning">
 	  <span class="fa fa-thumbs-down"></span>&nbsp;Dislikes: 21
 	</button>
 	<div class="dropdown-content">
@@ -64,7 +104,7 @@
 
     <ul class="list-group">
       <li class="list-group-item">
-	<button type="button" class="btn btn-info btn-sm" (click)="draftComment()">Post Comment</button>
+	<button type="button" class="btn btn-info" (click)="draftComment()">Post Comment</button>
 	<br />
 	<!--form>
 	  <textarea name="Comment" rows="10" columns="30" class="form-control"></textarea>

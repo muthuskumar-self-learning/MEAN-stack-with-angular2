@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-blog',
@@ -11,9 +14,42 @@ export class BlogComponent implements OnInit {
     message;
     newPost = false;
     loadingBlogs = false;
+    blogForm;
+    processing = false;
+    username;
     
-    constructor() { }
+    constructor(
+	private blogFormBuilder: FormBuilder,
+	private authService: AuthService
+    ) {
+	this.createNewBlogForm();
+    }
 
+    createNewBlogForm() {
+	this.blogForm = this.blogFormBuilder.group({
+	    title: ['', Validators.compose([
+		Validators.required,
+		Validators.minLength(5),
+		Validators.maxLength(50)
+	    ])],
+	    body: ['', Validators.compose([
+		Validators.required,
+		Validators.minLength(5),
+		Validators.maxLength(2000)
+	    ])]
+	});
+    }
+
+    disableBlogForm() {
+	this.blogForm.get('title').disable();
+	this.blogForm.get('body').disable();
+    }
+
+    enableBlogForm() {
+	this.blogForm.get('title').enable();
+	this.blogForm.get('body').enable();
+    }
+    
     newBlogForm() {
 	this.newPost = true;
     }
@@ -29,8 +65,31 @@ export class BlogComponent implements OnInit {
     draftComment() {
 
     }
+
+    onBlogFormSubmit() {
+	console.log('Blog Form Submitted');
+	this.newPost = false;
+	this.processing = true;
+	this.disableBlogForm();
+
+	const blog = {
+	    title: this.blogForm.get('title').value,
+	    body: this.blogForm.get('body').value,
+	    createdBy: this.username
+	}
+
+	console.log(blog);
+    }
+
+    cancelNewBlog() {
+	window.location.reload();
+    }
     
     ngOnInit() {
+	this.authService.getProfile()
+	    .subscribe(profile => {
+		this.username = profile.user.username
+	    });
     }
 
 }
