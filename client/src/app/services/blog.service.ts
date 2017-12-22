@@ -33,4 +33,9 @@ export class BlogService {
 	return this.http.get(this.domain + '/blogs/allBlogs', { headers: this.options });
     }
 
+    getSingleBlog(id): Observable<any> {
+	this.createAuthenticationHeaders();
+	return this.http.get(this.domain + '/blogs/singleBlog/'+id, {headers: this.options });
+    }
+
 }

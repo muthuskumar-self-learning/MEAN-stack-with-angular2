@@ -53,6 +53,23 @@ module.exports = (router) => {
 	    }
 	});
     });
+
+    router.get('/singleBlog/:id', (req, res) => {
+
+	if (!req.params.id) {
+	    res.json({ success: false, message: "Blog id was not provided." });
+	} else {
+	    Blog.findOne({ _id: req.params.id }, (err, blog) => {
+		if (err) {
+		    res.json({ success: false, message: "Error while retriving blog." + err });
+		} else if (!blog) {
+		    res.json({ success: false, message: "Blog not found." });
+		} else {
+		    res.json({ success: true, blog: blog });
+		}
+	    });
+	}
+    });
     
     return router;
 }
