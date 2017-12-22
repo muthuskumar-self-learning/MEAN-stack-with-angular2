@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const config = require('./config/database')
-const authentication = require('./routes/authentication')(router);
+//const authentication = require('./routes/authentication')(router);
 const blog = require('./routes/blog')(router);
 
 const port = 8080;
@@ -29,12 +29,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/client/dist'));
-app.use('/authentication', authentication);
+//app.use('/authentication', authentication);
 app.use('/blogs', blog);
 
-app.get('*', (req, res) => {
+/*app.get('*', (req, res) => {
     res.sendFile(__dirname + '/client/dist/index.html');
-});
+    });*/
+app.use('/api', router);
 
 app.listen(port, () => {
     console.log("Server running at port ", port);
