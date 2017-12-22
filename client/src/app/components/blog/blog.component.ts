@@ -123,7 +123,9 @@ export class BlogComponent implements OnInit {
     ngOnInit() {
 	this.authService.getProfile()
 	    .subscribe(profile => {
-		this.username = profile.user.username
+		if (profile.success) {
+		    this.username = profile.user.username;
+		}
 	    });
 	this.getAllBlogs();
     }

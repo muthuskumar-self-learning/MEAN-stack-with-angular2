@@ -7,7 +7,7 @@
 </div>
 
 
-<form (click)="updateBlogSubmit()">
+<form (submit)="updateBlogSubmit()" *ngIf="loading">
   <div class="form-group">
     <label for="title">Title</label>
     <input type="text"
@@ -44,7 +44,7 @@
 	  (click)="goBack()">
     Go Back
   </button>
-  <button type="button"
+  <button type="submit"
 	  name="button"
 	  class="btn btn-success">
     Save Changes
