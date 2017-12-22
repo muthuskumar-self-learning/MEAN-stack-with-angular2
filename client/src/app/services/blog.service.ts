@@ -25,22 +25,22 @@ export class BlogService {
 
     newBlog(blog): Observable<any> {
 	this.createAuthenticationHeaders();
-	return this.http.post(this.domain + '/blogs/newBlog', blog, { headers: this.options });
+	return this.http.post(this.domain + '/api/blogs', blog, { headers: this.options });
     }
 
     getAllBlogs(): Observable<any> {
 	this.createAuthenticationHeaders();
-	return this.http.get(this.domain + '/blogs/allBlogs', { headers: this.options });
+	return this.http.get(this.domain + '/api/blogs', { headers: this.options });
     }
 
     getSingleBlog(id): Observable<any> {
 	this.createAuthenticationHeaders();
-	return this.http.get(this.domain + '/blogs/singleBlog/'+id, { headers: this.options });
+	return this.http.get(this.domain + '/api/blogs/'+id, { headers: this.options });
     }
 
     editBlog(blog): Observable<any> {
 	this.createAuthenticationHeaders();
-	return this.http.put(this.domain + '/blogs/blog', blog, { headers: this.options })
+	return this.http.put(this.domain + '/api/blogs/'+blog._id, blog, { headers: this.options })
     }
 
 }
