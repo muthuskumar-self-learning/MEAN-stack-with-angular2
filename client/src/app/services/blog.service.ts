@@ -35,12 +35,17 @@ export class BlogService {
 
     getSingleBlog(id): Observable<any> {
 	this.createAuthenticationHeaders();
-	return this.http.get(this.domain + '/api/blogs/'+id, { headers: this.options });
+	return this.http.get(this.domain + '/api/blogs/' + id, { headers: this.options });
     }
 
     editBlog(blog): Observable<any> {
 	this.createAuthenticationHeaders();
-	return this.http.put(this.domain + '/api/blogs/'+blog._id, blog, { headers: this.options })
+	return this.http.put(this.domain + '/api/blogs/' + blog._id, blog, { headers: this.options })
+    }
+
+    deleteBlog(id): Observable<any> {
+	this.createAuthenticationHeaders();
+	return this.http.delete(this.domain + '/api/blogs/' + id, { headers: this.options });
     }
 
 }

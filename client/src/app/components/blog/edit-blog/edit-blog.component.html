@@ -7,9 +7,8 @@
 </div>
 
 
-<form (submit)="updateBlogSubmit()" *ngIf="loading">
-  <div class="form-group">
-    <label for="title">Title</label>
+<form class="card bg-light mb-3" style="max-width: 90%;" (submit)="updateBlogSubmit()" *ngIf="loading">
+  <div class="form-group card-header text-white bg-info">
     <input type="text"
 	   name="title"
 	   class="form-control"
@@ -18,8 +17,7 @@
 	   [disabled]="processing" />
   </div>
 
-  <div class="form-group">
-    <label for="body">Body</label>
+  <div class="form-group card-body">
     <textarea name="body"
 	      rows="8"
 	      cols="100"
@@ -29,24 +27,25 @@
 	      [disabled]="processing">
     </textarea>
   </div>
-
-  <a [routerLink]="['/delete-blog/', blog._id]">
+  <div class="card-footer">
+    <a [routerLink]="['/delete-blog/', blog._id]">
+      <button type="button"
+	      name="button"
+	      [disabled]="processing"
+	      class="btn btn-danger">
+	Delete
+      </button>
+    </a>
     <button type="button"
 	    name="button"
-	    [disabled]="processing"
-	    class="btn btn-danger">
-      Delete
+	    class="btn btn-warning"
+	    (click)="goBack()">
+      Go Back
     </button>
-  </a>
-  <button type="button"
-	  name="button"
-	  class="btn btn-warning"
-	  (click)="goBack()">
-    Go Back
-  </button>
-  <button type="submit"
-	  name="button"
-	  class="btn btn-success">
-    Save Changes
-  </button>
+    <button type="submit"
+	    name="button"
+	    class="btn btn-success">
+      Save Changes
+    </button>
+  </div>
 </form>

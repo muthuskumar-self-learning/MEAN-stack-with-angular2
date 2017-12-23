@@ -63,17 +63,26 @@ module.exports = (router) => {
 	    } else {
 		Blog.findOne({ _id: req.params.id }).exec()
 		    .then((blog) => {
-			User.findOne({ _id: req.decoded.userId }).exec()
-			    .then((user) => {
-				if (user.username !== blog.createdBy) {
-				    res.json({ success: false, message: "User not allowed to view this blog."});
-				} else {
-				    res.json({ success: true, blog: blog });
-				}
-			    })
-			    .catch((err) => {
-				res.json({ success: false, message: "Unauthorized User. " + err });
-			    });
+			if (!blog) {
+			    res.json({ success: false, message: "Blog not found." });
+			} else {
+			    User.findOne({ _id: req.decoded.userId }).exec()
+				.then((user) => {
+				    if (!user) {
+					res.json({ success: false, message: "User not found." });
+				    } else {
+					if (user.username !== blog.createdBy) {
+					    res.json({ success: false, message: "User not allowed to view this blog."});
+					} else {
+					    res.json({ success: true, blog: blog });
+					}
+				    }
+				})
+				.catch((err) => {
+				    res.json({ success: false, message: "Unauthorized User. " + err });
+				});
+			}
+			
 		    })
 		    .catch((err) => {
 			res.json({ success: false, message: "An error occurred while retrieving blog. " + err});
@@ -86,31 +95,79 @@ module.exports = (router) => {
 	    } else {
 		Blog.findOne({ _id: req.body._id }).exec()
 		    .then((blog) => {
-			User.findOne({ _id: req.decoded.userId }).exec()
-			    .then((user) => {
-				if (user.username !== blog.createdBy) {
-				    res.json({ success: false, message: "User not allowed to modify this blog."});
-				} else {
-				    blog.title = req.body.title;
-				    blog.body = req.body.body;
+			if (!blog) {
+			    res.json({ success: false, message: "Blog not found."});
+			} else {
+			    User.findOne({ _id: req.decoded.userId }).exec()
+				.then((user) => {
+				    if (!user) {
+					res.json({ success: false, message: "User not found."});
+				    } else {
+					if (user.username !== blog.createdBy) {
+					    res.json({ success: false, message: "User not allowed to modify this blog."});
+					} else {
+					    blog.title = req.body.title;
+					    blog.body = req.body.body;
 
-				    blog.save()
-					.then((blog) => {
-					    res.json({ success: true, message: "Blog saved.", blog: blog });
-					})
-					.catch((err) => {
-					    res.json({ success: false, message: "Unable to update blog. " + err});
-					});
-				}
-			    })
-			    .catch((err) => {
-				res.json({ success: false, message: "Unauthorized User. " + err });
-			    });
+					    blog.save()
+						.then((blog) => {
+						    res.json({ success: true, message: "Blog saved.", blog: blog });
+						})
+						.catch((err) => {
+						    res.json({ success: false, message: "Unable to update blog. " + err});
+						});
+					}
+				    }
+				    
+				})
+				.catch((err) => {
+				    res.json({ success: false, message: "Unauthorized user. " + err });
+				});
+			}
+			
 		    })
 		    .catch((err) => {
 			res.json({ success: false, message: "Unable to update blog. " + err });
 		    })
 		}
+	})
+	.delete((req, res) => {
+	    if (!req.params.id) {
+		res.json({ success: false, message: "Blog id was not provided."});
+	    } else {
+		Blog.findOne({ _id: req.params.id }).exec()
+		    .then((blog) => {
+			if (!blog) {
+			    res.json({ success: false, message: "Blog not found."});
+			} else {
+			    User.findOne({ _id: req.decoded.userId }).exec()
+				.then((user) => {
+				    if (!user) {
+					res.json({ success: false, message: "User not found." });
+				    } else {
+					if (user.username !== blog.createdBy) {
+					    res.json({ success: false, message: "User is unauthorized to delete this blog."});
+					} else {
+					    blog.remove()
+						.then((blog) => {
+						    res.json({ success: true, message: "Blog deleted."});
+						})
+						.catch((err) => {
+						    res.json({ success: false, message: "Unable to delete blog. " + err });
+						});
+					}
+				    }
+				})
+				.catch((err) => {
+				    res.json({ success: false, message: "Unauthorized user." + err});
+				});
+
+			}
+		    })
+		    .catch((err) => {
+			res.json({ success: false, message: "Unable to delete blog" + err });
+		    });
+	    }
 	});
 
     
