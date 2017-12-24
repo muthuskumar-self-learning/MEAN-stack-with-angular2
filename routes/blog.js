@@ -170,6 +170,96 @@ module.exports = (router) => {
 	    }
 	});
 
+    router.put('/blogs/:id/likes', (req, res) => {
+	Blog.findOne({ _id: req.params.id }).exec()
+	    .then((blog) => {
+		if (!blog) {
+		    res.json({ success: false, message: "Blog could not be found." });
+		}
+
+		User.findOne({ _id: req.decoded.userId }).exec()
+		    .then((user) => {
+			if (!user) {
+			    res.json({ success: false, message: "User could not found." });
+			}
+
+			if (user.username !== blog.createdBy) {
+			    if (blog.likedBy.includes(user.username)) {
+				res.json({ success: false, message: "You have already liked this post."});
+			    } else {
+				if (blog.dislikedBy.includes(user.username)) {
+				    blog.dislikes--;
+				    blog.dislikedBy.splice(blog.dislikedBy.indexOf(user.username),1);
+				}
+				blog.likes++;
+				blog.likedBy.push(user.username);
+
+				blog.save()
+				    .then((blog) => {
+					res.json({ success: true, message: "Blog successfully  liked." });
+				    })
+				    .catch((err) => {
+					res.json({ success: false, message: "Unable to like blog. " + err });
+				    });
+			    }
+			} else {
+			    res.json({ success: false, message: "You cannot like your own blog." });
+			}			
+		    })
+		    .catch((err) => {
+			res.json({ success: false, message: "An error occurred while retrieving user details for authorization." + err});
+		    });
+	    })
+	    .catch((err) => {
+		res.json({ success: false, message: "An error occurred while updating likes" + err });
+	    });
+    });
+
+    router.put('/blogs/:id/dislikes', (req, res) => {
+	Blog.findOne({ _id: req.params.id }).exec()
+	    .then((blog) => {
+		if (!blog) {
+		    res.json({ success: false, message: "Blog could not be found." });
+		}
+
+		User.findOne({ _id: req.decoded.userId }).exec()
+		    .then((user) => {
+			if (!user) {
+			    res.json({ success: false, message: "User could not found." });
+			}
+
+			if (user.username !== blog.createdBy) {
+			    if (blog.dislikedBy.includes(user.username)) {
+				res.json({ success: false, message: "You have already disliked this blog."});
+			    } else {
+				if (blog.likedBy.includes(user.username)) {
+				    blog.likes--;
+				    blog.likedBy.splice(blog.likedBy.indexOf(user.username),1);
+				}
+				blog.dislikes++;
+				blog.dislikedBy.push(user.username);
+
+				blog.save()
+				    .then((blog) => {
+					res.json({ success: true, message: "Blog successfully  disliked." });
+				    })
+				    .catch((err) => {
+					res.json({ success: false, message: "Unable to dislike blog. " + err });
+				    });
+			    }
+			} else {
+			    res.json({ success: false, message: "You cannot dislike your own blog." });
+			}			
+		    })
+		    .catch((err) => {
+			res.json({ success: false, message: "An error occurred while retrieving user details for authorization." + err});
+		    });
+	    })
+	    .catch((err) => {
+		res.json({ success: false, message: "An error occurred while updating likes." + err });
+	    });
+    });    
+
     
     return router;
 }
