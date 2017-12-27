@@ -48,4 +48,13 @@ export class BlogService {
 	return this.http.delete(this.domain + '/api/blogs/' + id, { headers: this.options });
     }
 
+    likeBlog(blog): Observable<any> {
+	this.createAuthenticationHeaders();
+	return this.http.put(this.domain + '/api/blogs/'+blog._id+'/likes', blog, { headers: this.options });
+    }
+
+    dislikeBlog(blog): Observable<any> {
+	this.createAuthenticationHeaders();
+	return this.http.put(this.domain + '/api/blogs/'+blog._id+'/dislikes', blog, { headers: this.options });
+    }    
 }

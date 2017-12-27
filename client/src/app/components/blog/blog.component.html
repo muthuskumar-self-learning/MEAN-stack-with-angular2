@@ -82,24 +82,20 @@
       </a>
 
       <div class="dropdown">
-	<button type="button" class="btn btn-success" *ngIf="blog.createdBy !== username">
+	<button type="button" class="btn btn-success" *ngIf="blog.createdBy !== username" (click)="likeBlog(blog)">
 	  <span class="fa fa-thumbs-up"></span>&nbsp;Likes: {{ blog.likes }}
 	</button>
 	<div class="dropdown-content">
-	  <a href="#">User A</a>
-	  <a href="#">User B</a>
-	  <a href="#">User C</a>
+	  <div *ngFor="let liker of blog.likedBy">{{liker}}</div>
 	</div>
       </div>
 
       <div class="dropdown">
-	<button type="button" class="btn btn-warning" *ngIf="blog.createdBy !== username">
+	<button type="button" class="btn btn-warning" *ngIf="blog.createdBy !== username" (click)="dislikeBlog(blog)">
 	  <span class="fa fa-thumbs-down"></span>&nbsp;Dislikes: {{ blog.dislikes }}
 	</button>
 	<div class="dropdown-content">
-	  <a href="#">User A</a>
-	  <a href="#">User B</a>
-	  <a href="#">User C</a>
+	  <div *ngFor="let disliker of blog.dislikedBy">{{disliker}}</div>
 	</div>
       </div>
       

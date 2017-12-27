@@ -196,7 +196,7 @@ module.exports = (router) => {
 
 				blog.save()
 				    .then((blog) => {
-					res.json({ success: true, message: "Blog successfully  liked." });
+					res.json({ success: true, message: "Blog successfully  liked.", blog: blog });
 				    })
 				    .catch((err) => {
 					res.json({ success: false, message: "Unable to like blog. " + err });
@@ -241,7 +241,7 @@ module.exports = (router) => {
 
 				blog.save()
 				    .then((blog) => {
-					res.json({ success: true, message: "Blog successfully  disliked." });
+					res.json({ success: true, message: "Blog successfully  disliked.", blog: blog });
 				    })
 				    .catch((err) => {
 					res.json({ success: false, message: "Unable to dislike blog. " + err });

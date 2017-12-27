@@ -119,6 +119,31 @@ export class BlogComponent implements OnInit {
     cancelNewBlog() {
 	window.location.reload();
     }
+
+    likeBlog(blog) {
+
+	this.blogService.likeBlog(blog)
+	    .subscribe(data => {
+		if (!data.success) {
+		    this.messageClass = "alert alert-danger";
+		    this.message = data.message;
+		} else {
+		    this.getAllBlogs();
+		}
+	    });
+    }
+
+    dislikeBlog(blog) {
+	this.blogService.dislikeBlog(blog)
+	    .subscribe(data => {
+		if (!data.success) {
+		    this.messageClass = "alert alert-danger";
+		    this.message = data.message;
+		} else {
+		    this.getAllBlogs();
+		}
+	    });
+    }
     
     ngOnInit() {
 	this.authService.getProfile()
